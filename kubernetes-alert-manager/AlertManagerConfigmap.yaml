@@ -1,0 +1,38 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  config.yml: |-
+    global:
+    templates:
+    - '/etc/alertmanager/*.tmpl'
+    route:
+      receiver: alert-emailer
+      group_by: ['alertname', 'priority']
+      group_wait: 10s
+      repeat_interval: 60m
+      routes:
+        - receiver: alert-emailer
+        # Send severity=slack alerts to slack.
+          match:
+            severity: critical
+          group_wait: 10s
+          repeat_interval: 1m
+ 
+    receivers:
+    - name: alert-emailer
+      email_configs:
+      - to: **************
+        send_resolved:  true         #false
+        from: **************
+        smarthost: smtp.office365.com:587 
+        require_tls: true           #false
+        auth_username: **************
+        auth_identity: **************
+        auth_password: **************
+        # - name: slack_demo
+        #slack_configs:
+        #- api_url: https://hooks.slack.com/services/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sz4Qk
+        #channel: '#devopscube-demo'
