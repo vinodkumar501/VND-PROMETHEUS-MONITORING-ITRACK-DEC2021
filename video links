@@ -1,0 +1,12 @@
+https://github.com/vinodkumar501/awesome-prometheus
+
+
+officail prometheus demo
+https://demo.do.prometheus.io/
+Official Prometheus demo site managed by Cloud Alchemy Ansible roles updating daily using configuration from Prometheus repository.
+https://github.com/prometheus/demo-site
+
+https://sysdig.com/blog/kubernetes-monitoring-prometheus/ - Kubernetes monitoring with Prometheus, the ultimate guide by Mateo Burillo.
+https://www.digitalocean.com/community/tutorials/how-to-install-prometheus-using-docker-on-centos-7 
+https://www.digitalocean.com/community/tutorials/how-to-use-prometheus-to-monitor-your-centos-7-server
+https://www.digitalocean.com/community/tutorials/how-to-add-a-prometheus-dashboard-to-grafana
