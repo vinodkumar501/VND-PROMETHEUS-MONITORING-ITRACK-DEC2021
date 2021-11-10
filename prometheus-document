@@ -33,6 +33,11 @@ a push gateway for supporting short-lived jobs
 special-purpose exporters for services like HAProxy, StatsD, Graphite, etc.
 an alertmanager to handle alerts
 
+
+Prometheus is a full monitoring and trending system that includes built-in and active scraping, storing, querying, graphing, and alerting based on time series data. 
+It has knowledge about what the world should look like (which endpoints should exist, what time series patterns mean trouble, etc.), and actively tries to find faults
+
+
 Prometheus scrapes metrics from instrumented jobs, either directly or via an intermediary push gateway for short-lived jobs.
 It stores all scraped samples locally and runs rules over this data to either aggregate and record new time series from existing data or generate alerts. 
 Grafana or other API consumers can be used to visualize the collected data.
@@ -96,10 +101,16 @@ To count the number of returned time series, you could write:
 
 count(promhttp_metric_handler_requests_total)
 
+Where Prometheus is better:
+
+If you're primarily doing metrics.
+More powerful query language, alerting, and notification functionality.
+Higher availability and uptime for graphing and alerting.
 
 
+Nagios is suitable for basic monitoring of small and/or static systems where blackbox probing is sufficient.
 
-
+If you want to do whitebox monitoring, or have a dynamic or cloud based environment, then Prometheus is a good choice.
 
 
 
