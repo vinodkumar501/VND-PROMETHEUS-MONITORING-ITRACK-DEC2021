@@ -231,6 +231,8 @@ groups:
   The annotation values can be templated.
 
 Templating
+https://prometheus.io/docs/prometheus/latest/configuration/template_examples/
+
 Label and annotation values can be templated using console templates. The $labels variable holds the label key/value pairs of an alert instance. The configured external labels can be accessed via the $externalLabels variable. The $value variable holds the evaluated value of an alert instance.
 
 # To insert a firing element's label values:
@@ -261,3 +263,6 @@ groups:
     annotations:
       summary: "High request latency on {{ $labels.instance }}"
       description: "{{ $labels.instance }} has a median request latency above 1s (current value: {{ $value }}s)"
+      
+      
+
