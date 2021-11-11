@@ -113,6 +113,24 @@ Nagios is suitable for basic monitoring of small and/or static systems where bla
 If you want to do whitebox monitoring, or have a dynamic or cloud based environment, then Prometheus is a good choice.
 
 
+ALERTING:
+An alert is the outcome of an alerting rule in Prometheus that is actively firing. Alerts are sent from Prometheus to the Alertmanager.
+
+Alertmanager
+The Alertmanager takes in alerts, aggregates them into groups, de-duplicates, applies silences, throttles, and then sends out notifications to email, Pagerduty, Slack etc.
+
+Exporter
+An exporter is a binary running alongside the application you want to obtain metrics from. The exporter exposes Prometheus metrics,
+commonly by converting metrics that are exposed in a non-Prometheus format into a format that Prometheus supports.
+
+Job
+A collection of targets with the same purpose, for example monitoring a group of like processes replicated for scalability or reliability, is called a job.
+
+Pushgateway
+The Pushgateway persists the most recent push of metrics from batch jobs. This allows Prometheus to scrape their metrics after they have terminated.
 
 
+DATA MODEL
 
+Prometheus fundamentally stores all data as time series: streams of timestamped values belonging to the same metric and the same set of labeled dimensions. 
+Besides stored time series, Prometheus may generate temporary derived time series as the result of queries.
