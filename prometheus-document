@@ -222,15 +222,18 @@ groups:
     annotations:
       summary: High request latency
       
-  optional for clause causes Prometheus to wait for a certain duration 
-  between first encountering a new expression output vector element and counting an alert as firing for this element.
+optional for clause causes Prometheus to wait for a certain duration 
+between first encountering a new expression output vector element and counting an alert as firing for this element.
   
-  In this case, Prometheus will check that the alert continues to be active during each evaluation for 10 minutes before firing the alert. 
+In this case, Prometheus will check that the alert continues to be active during each evaluation for 10 minutes before firing the alert. 
   
-  The annotations clause specifies a set of informational labels that can be used to store longer additional information such as alert descriptions or runbook links. 
-  The annotation values can be templated.
+The annotations clause specifies a set of informational labels that can be used to store longer additional information such as alert descriptions or runbook links. 
+The annotation values can be templated.
 
 Templating
+
+Templates have the ability to run queries against the local database, iterate over data, use conditionals, format data, etc
+
 https://prometheus.io/docs/prometheus/latest/configuration/template_examples/
 
 Label and annotation values can be templated using console templates. The $labels variable holds the label key/value pairs of an alert instance. The configured external labels can be accessed via the $externalLabels variable. The $value variable holds the evaluated value of an alert instance.
@@ -264,5 +267,10 @@ groups:
       summary: "High request latency on {{ $labels.instance }}"
       description: "{{ $labels.instance }} has a median request latency above 1s (current value: {{ $value }}s)"
       
+https://prometheus.io/docs/prometheus/latest/configuration/template_reference/
+
+Alert field templates
+.Value, .Labels, .ExternalLabels, and .ExternalURL contain the alert value, the alert labels, the globally configured external labels, and the external URL (configured with --web.external-url) respectively. 
+They are also exposed as the $value, $labels, $externalLabels, and $externalURL variables for convenienc
       
 
