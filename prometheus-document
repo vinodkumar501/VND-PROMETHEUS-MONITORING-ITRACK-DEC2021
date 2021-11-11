@@ -134,3 +134,130 @@ DATA MODEL
 
 Prometheus fundamentally stores all data as time series: streams of timestamped values belonging to the same metric and the same set of labeled dimensions. 
 Besides stored time series, Prometheus may generate temporary derived time series as the result of queries.
+
+JOBS AND INSTANCES
+https://prometheus.io/docs/concepts/jobs_instances/
+
+In Prometheus terms, an endpoint you can scrape is called an instance, usually corresponding to a single process.
+A collection of instances with the same purpose, a process replicated for scalability or reliability for example,
+is called a job.
+
+For example, an API server job with four replicated instances:
+
+job: api-server
+instance 1: 1.2.3.4:5670
+instance 2: 1.2.3.4:5671
+instance 3: 5.6.7.8:5670
+instance 4: 5.6.7.8:5671
+
+Automatically generated labels and time series
+When Prometheus scrapes a target, it attaches some labels automatically to the scraped time series which serve to identify the scraped target:
+
+job: The configured job name that the target belongs to.
+instance: The <host>:<port> part of the target's URL that was scraped.
+
+For each instance scrape, Prometheus stores a sample in the following time series:
+
+up{job="<job-name>", instance="<instance-id>"}: 1 if the instance is healthy, i.e. reachable, or 0 if the scrape failed.
+scrape_duration_seconds{job="<job-name>", instance="<instance-id>"}: duration of the scrape.
+
+prometheus.yml:
+
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: 'codelab-monitor'
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ['localhost:9090']
+
+
+https://prometheus.io/docs/prometheus/latest/configuration/configuration/
+
+https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/
+
+Recording rules
+Recording rules allow you to precompute frequently needed or computationally expensive expressions and save their result as a new set of time series. 
+Querying the precomputed result will then often be much faster than executing the original expression every time it is needed. 
+This is especially useful for dashboards, which need to query the same expression repeatedly every time they refresh.
+
+Recording and alerting rules exist in a rule group. Rules within a group are run sequentially at a regular interval, with the same evaluation time.
+The names of recording rules must be valid metric names. The names of alerting rules must be valid label values.
+
+
+https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
+
+ALERTING RULES
+Defining alerting rules
+Inspecting alerts during runtime
+Sending alert notifications
+Alerting rules allow you to define alert conditions based on Prometheus expression language expressions and to send notifications about firing alerts to an external service
+
+
+Defining alerting rules
+Alerting rules are configured in Prometheus in the same way as recording rules.
+
+An example rules file with an alert would be:
+
+groups:
+- name: example
+  rules:
+  - alert: HighRequestLatency
+    expr: job:request_latency_seconds:mean5m{job="myjob"} > 0.5
+    for: 10m
+    labels:
+      severity: page
+    annotations:
+      summary: High request latency
+      
+  optional for clause causes Prometheus to wait for a certain duration 
+  between first encountering a new expression output vector element and counting an alert as firing for this element.
+  
+  In this case, Prometheus will check that the alert continues to be active during each evaluation for 10 minutes before firing the alert. 
+  
+  The annotations clause specifies a set of informational labels that can be used to store longer additional information such as alert descriptions or runbook links. 
+  The annotation values can be templated.
+
+Templating
+Label and annotation values can be templated using console templates. The $labels variable holds the label key/value pairs of an alert instance. The configured external labels can be accessed via the $externalLabels variable. The $value variable holds the evaluated value of an alert instance.
+
+# To insert a firing element's label values:
+{{ $labels.<labelname> }}
+# To insert the numeric expression value of the firing element:
+{{ $value }}
+
+Examples:
+
+groups:
+- name: example
+  rules:
+
+  # Alert for any instance that is unreachable for >5 minutes.
+  - alert: InstanceDown
+    expr: up == 0
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      summary: "Instance {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+
+  # Alert for any instance that has a median request latency >1s.
+  - alert: APIHighRequestLatency
+    expr: api_http_request_latencies_second{quantile="0.5"} > 1
+    for: 10m
+    annotations:
+      summary: "High request latency on {{ $labels.instance }}"
+      description: "{{ $labels.instance }} has a median request latency above 1s (current value: {{ $value }}s)"
