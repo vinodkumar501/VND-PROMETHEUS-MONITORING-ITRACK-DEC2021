@@ -24,14 +24,14 @@ data:
     receivers:
     - name: alert-emailer
       email_configs:
-      - to: **************
+      - to: prom@gmail.com
         send_resolved:  true         #false
-        from: **************
+        from:  devops@gmail.com
         smarthost: smtp.office365.com:587 
         require_tls: true           #false
-        auth_username: **************
-        auth_identity: **************
-        auth_password: **************
+        auth_username: devops@gmail.com
+        auth_identity: devops@gmail.com
+        auth_password: abcdefg
         # - name: slack_demo
         #slack_configs:
         #- api_url: https://hooks.slack.com/services/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sz4Qk
