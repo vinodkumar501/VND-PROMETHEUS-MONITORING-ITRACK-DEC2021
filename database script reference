@@ -1,1 +1,5 @@
+sql backup script ref:
 https://sqlbak.com/blog/how-to-automate-postgresql-database-backups-in-linux
+
+vm start stop in gcp
+https://cloud.google.com/compute/docs/instances/schedule-instance-start-stop
