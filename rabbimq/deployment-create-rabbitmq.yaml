@@ -19,3 +19,7 @@ spec:
         resources: {}
       restartPolicy: Always
 status: {}
+
+
+
+https://piotrminkowski.com/2020/09/29/rabbitmq-monitoring-on-kubernetes/
