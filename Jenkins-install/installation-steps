@@ -1,0 +1,42 @@
+Installation steps of Jenkins:  on centos or amazon linux 
+
+https://www.jenkins.io/doc/tutorials/tutorial-for-installing-jenkins-on-AWS/
+
+yum update -y
+wget -O /etc/yum.repos.d/jenkins.repo     https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+sudo yum upgrade
+sudo yum install jenkins java-1.8.0-openjdk-devel -y
+(Note: if above fails user below 3 steps)
+sudo yum install epel-release -y  
+(or)  
+sudo amazon-linux-extras install epel   ##( for amazon linux )
+sudo yum install daemonize -y  
+sudo yum install jenkins java-1.8.0-openjdk-devel -y 
+
+sudo systemctl daemon-reload
+sudo systemctl start jenkins
+sudo systemctl status jenkins
+cat /var/lib/jenkins/secrets/initialAdminPassword
+
+--------
+Error1:
+sudo yum install jenkins java-1.8.0-openjdk-devel -y
+error:
+[Solved] Error: Package: jenkins-2.303.1-1.1.noarch (jenkins) Requires: daemonize --skip-broken to work
+https://www.unixcloudfusion.in/2021/09/solved-error-package-jenkins-23031.html
+Resolution:
+Daemonize doesn't ship in the default repository thats why yum is not able to resolve it. You will need to install the Daemonize from the Epel repository which is the extra package for enterprise linux as
+
+-----
+Error2:
+yum install epel-release -y  
+
+Error: Nothing to do
+epel-release is available in Amazon Linux Extra topic "epel"
+To use, run
+-->sudo amazon-linux-extras install epel
+
+Error3:
+Starting Jenkins File "/usr/bin/java" is not executable.
+Nov 26 13:54:09 ip-172-31-87-38.ec2.internal jenkins[4037]: [FAILED]
