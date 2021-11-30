@@ -25,7 +25,7 @@ pipeline {                       //must be top level
 
 ------------------------jenkins file2----------------------------------
    
-https://github.com/vinodkumar501/jenkinsfile-learning-repo.git
+https://github.com/vinodkumar501/itrack-jenkinsfile-learning-repo.git
    
 pipeline {
     agent any
