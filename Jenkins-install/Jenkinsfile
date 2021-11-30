@@ -20,3 +20,34 @@ pipeline {                       //must be top level
      }
   }
 }
+
+
+
+------------------------jenkins file2----------------------------------
+   
+https://github.com/vinodkumar501/jenkinsfile-learning-repo.git
+   
+pipeline {
+    agent any
+    tools {
+        maven 'mvn-3.8.4'
+    }
+    stages {
+        stage ('Compile Stage') {
+            steps {
+                    sh 'mvn clean compile'
+                }
+            }
+        stage ('Testing Stage') {
+
+            steps {
+                    sh 'mvn test'
+                }
+            }
+        stage ('Deployment Stage') {
+            steps {
+                    sh 'mvn deploy'
+                }
+            }
+        }
+    }
