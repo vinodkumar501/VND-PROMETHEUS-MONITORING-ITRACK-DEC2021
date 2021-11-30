@@ -99,27 +99,37 @@ click on save
 
 https://medium.com/@gustavo.guss/jenkins-starting-with-pipeline-doing-a-node-js-test-72c6057b67d4
 
-
+---------------------------------------- Jenkinsfile-------------------------------------------
+//https://www.youtube.com/watch?v=L9Ite-1pEU8
 pipeline {
    agent any 
+   tools {
+       gradle('gradle-7')  
+   }
    stages{
-     stage("run frontend")
+      stage("run frontend"){
        steps{
          echo 'executing yarn ..'
          nodejs('node-17.1.0'){
              sh 'yarn install'
              sh 'npm config ls'
+             sh 'npm -version'
+             sh 'node --version'
+             sh 'yarn -version'
          }
        }
     }
-     stage("run backend")
+      stage("run backend"){
        steps{
          echo 'executing graddle'
-         sh './gradle'       
+         sh 'gradle init'
+         sh 'gradle -version'
+         sh 'gradle clean build'
+         //https://docs.gradle.org/current/userguide/jenkins.html
          }
-       }
-   }
-}
+      }
+    }
+  }  
 
 
 
