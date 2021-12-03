@@ -2,6 +2,8 @@
 
 Complete prometheus monitoring stack setup on Kubernetes.
 
+Prometheus is a systems and service monitoring system. It collects metrics from configured targets at given intervals, evaluates rule expressions, displays the results, and can trigger alerts if some condition is observed to be true.
+
 You can find the full tutorial from here https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
 https://devopscube.com/setup-kubernetes-cluster-google-cloud/
 
