@@ -3,6 +3,7 @@
 Complete prometheus monitoring stack setup on Kubernetes.
 
 You can find the full tutorial from here https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
+https://devopscube.com/setup-kubernetes-cluster-google-cloud/
 
 ## CKA, CKAD or CKS Voucher Codes
 
