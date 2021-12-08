@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: basicauth
+  namespace: monitoring
+data:
+    htpasswd: |
+      admin:$apr1$e75kmd8r$vZaTIEZ1AtdZcaO2VQK9M1
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: serviceproxy-conf
+  namespace: monitoring
+data:
+  serviceproxy.conf: |
+      server {
+          listen       80;
+          #server_name  _;
+          location / {
+              root   html;
+              auth_basic "Private Property";
+              auth_basic_user_file /etc/serviceproxy/htpasswd;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $remote_addr;
+              proxy_set_header Host $host;
+              index  index.html index.htm;
+              proxy_pass http://11.23.43.34:8080/;           #prometheus loadbalancer service ip
+          }
+      }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serviceproxy
+  namespace: monitoring
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: serviceproxy
+  template:
+    metadata:
+      labels:
+        app: serviceproxy
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.13
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/nginx/conf.d/
+        - name: htpasswd
+          mountPath: /etc/serviceproxy/
+      volumes:
+      - name: config-volume
+        configMap:
+          name: serviceproxy-conf
+          items:
+          - key: serviceproxy.conf
+            path: serviceproxy.conf
+      - name: htpasswd
+        configMap:
+          name: basicauth
+          items:
+          - key: htpasswd
+            path: htpasswd
+---
+apiVersion: v1
+kind: Service
+metadata:
+name: nginx-svc
+  namespace: monitoring
+  spec:
+     type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      selector:
+         app: serviceproxy
