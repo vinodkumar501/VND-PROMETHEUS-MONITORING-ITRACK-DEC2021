@@ -1,1 +1,51 @@
+https://www.youtube.com/watch?v=tZCNhV5W4CM
 
+WHAT IS SERVER?
+
+server is a computer that provide services to other computer
+ex: mail server, facebook( web/appn server), gmail , watsapp , teams , skype 
+database server etc.
+
+
+
+Mail, web,file, database , storage 
+
+SERVER OS ?
+Provide svc's to multiple providers (DNS, DHCP, WEB ,FILE)
+Can serve multiple clients at a time
+more advanced ( redhat, ubuntu server )
+
+WHAT IS CLIENT?
+your pc , useful to only 1 person.
+
+CLIENT OS?
+os that operates within desktops and poratable devices.
+it takes services from server ( use services not for providing)
+single user at a time access (once per user)
+
+window7 ,8 ,10 etc
+
+h/w  --> OS --> application
+
+----------------------ACTIVE DIRECTORY?:---------------------------------------           
+
+DATA BASE WHICH PROVIDES CENTRALISED CONTROL
+-> Distributed across the world
+-> store resources (printer, share folders)
+-> services like email
+-> stores everything like object
+-> store group policy settings  ---> make centralised changes to computers
+( in organisation create a group marketing ) 
+if you create policy for group it applies to all members
+if deny access to group ( create policy ) it applies to all 
+
+username, computer , group policy ,printer 
+everrything in AD is objects
+
+DOMAIN?
+Logical group of computers that share same AD database (centralised use)
+all computer in domain are same namespace
+ computer.dj.com
+ 
+ AD mail job --> authentication
+ 
