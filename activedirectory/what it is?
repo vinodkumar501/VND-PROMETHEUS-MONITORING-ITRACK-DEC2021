@@ -49,3 +49,14 @@ all computer in domain are same namespace
  
  AD mail job --> authentication
  
+ 
+ LDAP:
+ A protocol used to access db 
+ 
+ AD access DB using ldap
+ 
+ AD ---> LDAP ----> DB
+ 
+ 
+ 
+ 
