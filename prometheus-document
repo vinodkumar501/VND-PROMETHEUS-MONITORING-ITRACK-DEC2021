@@ -1,3 +1,15 @@
+Kube State metrics manifests: https://github.com/devopscube/kube-state-metrics-configs
+
+Alert manager Manifests: https://github.com/bibinwilson/kubernetes-alert-manager
+
+Grafana manifests: https://github.com/bibinwilson/kubernetes-grafana
+
+Node Exporter manifests: https://github.com/bibinwilson/kubernetes-node-exporter
+
+prometheus-setup: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
+
+==============================================================
+
 https://www.digitalocean.com/community/tutorials/how-to-install-prometheus-on-ubuntu-16-04
 
 https://prometheus.io/docs/introduction/overview/
