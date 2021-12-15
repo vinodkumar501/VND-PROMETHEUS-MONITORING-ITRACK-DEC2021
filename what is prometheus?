@@ -1,0 +1,4 @@
+Prometheus is a s/w appn used for event monitoring and alerting
+
+it records realtime metrics in a time series db using http pull model
+
