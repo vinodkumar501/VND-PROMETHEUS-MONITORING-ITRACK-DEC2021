@@ -70,7 +70,7 @@ sudo systemctl status prometheus
 <ip>:9090
 
 
-------------------------------------- node exporter ---------------------------
+------------------------------------- INSTALL NODE EXPORTER  ---------------------------
 
 https://codewizardly.com/prometheus-on-aws-ec2-part2/
 
@@ -125,7 +125,8 @@ scrape_configs:
 
 sudo systemctl restart prometheus
 
-
+http://18.212.184.119:9100/metrics            #node-exporter
+http://18.212.184.119:9090/classic/targets    #prometheus
 
 
 
