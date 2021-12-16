@@ -1,3 +1,6 @@
+https://www.youtube.com/watch?v=7gW5pSM6dlU
+============================================== INSTALL PROMETHEUS ===========================================================
+
 https://codewizardly.com/prometheus-on-aws-ec2-part1/
 
 sudo useradd --no-create-home prometheus
@@ -70,7 +73,7 @@ sudo systemctl status prometheus
 <ip>:9090
 
 
-------------------------------------- INSTALL NODE EXPORTER  ---------------------------
+============================================================ INSTALL NODE EXPORTER  ============================================================
 
 https://codewizardly.com/prometheus-on-aws-ec2-part2/
 
@@ -255,8 +258,14 @@ tar -xzvf alertmanager-0.23.0.linux-amd64.tar.gz
 ls
 LICENSE  NOTICE  alertmanager  alertmanager.yml  amtool
 
+==============================================INSTALL SERVICE DISCOVERY====================================================
+
+https://codewizardly.com/prometheus-on-aws-ec2-part3/
 
 
+============================================== INSTALL GRAFANA=============================================================
+
+https://www.radishlogic.com/aws/ec2/how-to-install-grafana-on-ec2-amazon-linux-2/
 
 
 
