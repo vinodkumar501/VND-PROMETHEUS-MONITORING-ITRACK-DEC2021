@@ -127,6 +127,162 @@ sudo systemctl restart prometheus
 
 http://18.212.184.119:9100/metrics            #node-exporter
 http://18.212.184.119:9090/classic/targets    #prometheus
+http://18.212.184.119:9090/classic/config
+
+--------------> excute queries in prometheus <----------------------
+node_uname_info
+
+------------->Prometheus advanced queries  <----------------------
+
+prometheus_http_requests_total{code="302"}
+{handler =~"/api.*"}
+node memory free percentaga
+100-(100* node_memory_MemFree_bytes/node_memory_MemAvailable_bytes)
+
+--------------------------  ALERTING RULES  -----------------------------
+Each and every time we donot frame the command to check the data --- for this use records
+
+https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/
+
+create prometheus_rules.yml 
+
+root@ip-172-31-85-32:/etc/prometheus# pwd
+/etc/prometheus
+root@ip-172-31-85-32:/etc/prometheus# ls
+console_libraries  consoles  prometheus.yml  prometheus_rules.yml
+
+vi prometheus_rules.yml
+
+groups:
+   - name: example
+     rules:
+      - record: node_memory_free_percentage
+        expr: 100-(100* node_memory_MemFree_bytes/node_memory_MemAvailable_bytes)
+
+
+-> once done you need to add prometheus_rules.yml inside of prometheus.yml file and restart prometheus 
+and check in query your rule will present or not
+
+systemctl daemon-reload
+systemctl restart prometheus 
+systemctl status prometheus 
+
+node_memory_free_percentage
+
+O/P of prometheus.yml
+
+# my global config
+global:
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+    - prometheus_rules.yml
+    
+ -----------------------------------------
+ these will present in rules path of prometheus
+ 
+ http://18.212.184.119:9090/classic/rules
+ 
+record: node_memory_free_percentage
+expr: 100
+  - (100 * node_memory_MemFree_bytes / node_memory_MemAvailable_bytes)
+  
+
+--------------------------------------------- ALERTING  -----------------------------------------
+https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
+
+groups:
+ - name: ALERTINT RULES
+   rules:
+      - record: node_memory_free_percentage
+        expr: 100-(100* node_memory_MemFree_bytes/node_memory_MemAvailable_bytes)
+    
+        #ALERTS    
+      - alert: HighRequestLatency
+        expr: node_memory_MemAvailable_bytes >5
+        for: 10m
+        labels:
+          severity: page
+        annotations:
+          summary: High request latency
+      
+      - alert: HighRequestLatency
+        expr: node_memory_MemAvailable_bytes >10
+        for: 10m
+        labels:
+          severity: page
+        annotations:
+          summary: High request latency10
+          
+  -------------------------
+o/p IN PROMETHEUS LIKE
+  
+http://18.212.184.119:9090/classic/rules
+
+ls
+LICENSE  NOTICE  console_libraries  consoles  data  prometheus  prometheus.yml  promtool
+
+------------------- Check the rules file valid or not ----------------------------
+
+./promtool check rules prometheus_rules.yml
+Checking prometheus_rules.yml
+  SUCCESS: 2 rules found
+
+
+
+
+==============================================INSTALL ALERT MANAGER====================================================
+https://codewizardly.com/prometheus-on-aws-ec2-part4/
+
+https://github.com/prometheus/alertmanager/releases/download/v0.23.0/alertmanager-0.23.0.linux-amd64.tar.gz
+https://prometheus.io/download/
+
+wget https://github.com/prometheus/alertmanager/releases/download/v0.23.0/alertmanager-0.23.0.linux-amd64.tar.gz
+tar -xzvf alertmanager-0.23.0.linux-amd64.tar.gz
+
+ls
+LICENSE  NOTICE  alertmanager  alertmanager.yml  amtool
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
