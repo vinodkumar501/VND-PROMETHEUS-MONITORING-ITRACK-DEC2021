@@ -1,6 +1,6 @@
 http://18.212.184.119:9090/flags
 
-these flags we need to mention in yaml file
+These flags we need to mention in yaml file to run particular svc
 like
 
 --config.file	/etc/prometheus/prometheus.yml
@@ -136,3 +136,35 @@ Flags:
                                  than this into memory, so this also limits the number of samples a query can return.
       --log.level=info           Only log messages with the given severity or above. One of: [debug, info, warn, error]
       --log.format=logfmt        Output format of log messages. One of: [logfmt, json]
+      
+      
+      
+      
+=======================================================
+Configuration  
+      
+http://18.212.184.119:9090/config
+
+global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  evaluation_interval: 15s
+alerting:
+  alertmanagers:
+  - follow_redirects: true
+    scheme: http
+    timeout: 10s
+    api_version: v2
+    static_configs:
+    - targets: []
+scrape_configs:
+- job_name: prometheus
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  follow_redirects: true
+  static_configs:
+  - targets:
+    - 18.212.184.119:9090
