@@ -1,4 +1,23 @@
-Prometheus is a s/w appn used for event monitoring and alerting
+https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
+https://hub.docker.com/r/prom/prometheus/
 
-it records realtime metrics in a time series db using http pull model
+setup k8s on gke
+https://devopscube.com/setup-kubernetes-cluster-google-cloud/
 
+Prometheus is a systems and service monitoring system. It collects metrics from configured targets at given intervals, evaluates rule expressions, 
+displays the results, and can trigger alerts if some condition is observed to be true.
+
+https://www.youtube.com/watch?v=7gW5pSM6dlU
+
+->Prometheus is a s/w appn used for event monitoring and alerting
+->it records realtime metrics in a time series db using http pull model
+
+WHy use prometheus?
+-> pull based model
+-> actively scrapes targets to receive metrics 
+endpoints defined in prometheus config
+node and appn exporter will listen on particular port and prometheus intiates http call to particular exporter and fetch metrics 
+
+free and opensource
+
+https://github.com/prometheus
