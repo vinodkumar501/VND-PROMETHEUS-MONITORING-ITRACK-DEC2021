@@ -9,7 +9,194 @@ Node Exporter manifests: https://github.com/bibinwilson/kubernetes-node-exporter
 prometheus-setup: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
 
 ==============================================================
+Why prometheus?
+https://www.youtube.com/watch?v=h4Sl21AKiDg
 
+it detects Errors at h/w and appn level, response latency , enough resources, overloaded it checks all and report.
+
+eg:
+if db server is down , the resources will not work then appn will face downtime and we see only error at UI on frontend, if we have monitoring enabled t will check all 
+we need to debug it very easily.
+
+Prometheus:
+- constantly monitor all resources
+- alert when crash 
+- identify problems before
+
+Eg: memory reach over 70%
+trigger alert at 70%
+
+Automated monitoring and alerting
+
+what does prometheus monitor?
+linux/windows server
+apache server
+single appn
+svc like db
+
+
+What uints monitor?
+Cpu, Memory/Disk usage
+
+TYPE: --> 3 metric types
+
+counter:
+how many time x has happened
+
+gaugae: 
+what is the current value of x now
+
+histogram:
+how long or how big
+
+======================================================= EXPORTER:=======================================================
+
+Fetches metrics from targets and convert them to prometheus understandable form , and expose the converted data at its own /metrics endpoint
+where prometheus can scrape them. 
+
+-> default values for each job
+
+metrics_path:"/metrics"
+scheme: "http"
+
+TARGET ENDPOINTS AND EXPORTERS
+------------------------------
+Monitor a linux server : 
+----------------------------------------------------> NODE EXPORTER <-----------------------------------------------------
+It deploy exporter as daemonset ( it deploy each and every node inside of cluster as 1 pod ) including newly created and get node data
+
+download node exporter and untar and execute
+Exporter convers metrics of server to prometheus understandable and expose metrics on /metrics endpoint
+Configure prometheus to scrape targets(endpoits)
+
+NOTE:
+Exporters available as docker images
+
+----------------------------------------------------> MySql exporter <-----------------------------------------------------
+
+-> If you want to monitor mysql container in k8s cluster use mysql exporter as sidecar container. 
+Deploy exporter as sidecar container as mysql exporter a part of mysql containers ( inside of pod 
+Mysql container and Mysql exporter).
+Exporter connect to mysql container and collect metrics and store it in own /metrics endpoit, then prometheus will scrape them.
+add details in prometheus.yml then prometheus will get data
+
+
+-------------------------------------------------> PULL MECHANISM <-------------------------------------------------------
+
+data receiver ------------> targetes (/metrics)
+
+COMPARISON OF PUSH AND PULL MECHANISM?
+
+Most monitoring system use push systems like cloud watch and newrelics
+
+why push is not advantage?
+
+appn will push metrics to centralised platform of monitoring tool.
+If you monitor large microsystems , each and every system will push metrics to central server. 
+-> high load of network traffic on server ( monitoring ) because all push metrics to only monitoring server.
+-> overload happens
+-> have to install daemons on each and every microservice to push metrics to central
+-> using push metrics only we can able to get data , if its up or down 
+
+
+WHY PULL
+
+->multiple promtheus instances can pull data
+->using pull we can better detction/ insight if server is up and running 
+
+======================================================== PUSH GATEWAY ===================================================
+
+What,when targets only run for a short term?
+
+Short lived job ---> push metrics at exit --> to Push gateway ---> pull data by prometheus server (targets)
+
+======================================================== Configuring prometheus ==========================================
+
+How often prometheus will scrape targets?
+
+global:
+  scrape_interval: 15s
+  evaluation interval: 15s
+  
+Rules:
+-> for aggregating metric values and trigger an alerts when condition met
+
+what resources prometheus will monitor?
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['<promip>:9090']
+=================================
+
+global:
+  scrape_interval: 15s
+  evaluation interval: 15s
+rule_files:
+  - "first.rules"
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['<promip>:9090']
+
+================================= Prometheus has its own /metrics endpoint =================================
+Prometheus has its own /metrics endpoint
+
+->Defin your own jobs
+-> default values for each job
+
+metrics_path:"/metrics"
+scheme: "http"
+
+
+=================================== ALERT MANAGER =======================================
+How does and who trigger that alerts
+-> reading alert rule of config file alertmanager trigger alerts to mail, slactk etc
+
+prometheus ---> alerts to ---> alert manager
+
+stores data on local or remote storage system
+================================== Promql ===================================
+
+http_requests_total{status!~"4.."}
+http except 4XX 
+
+rate(http_requests_total[5m])[30m:]
+returen 5 minute rate of http request metric for past 30 minutes
+
+--------------------------- prometheus --------------------------------------
+difficult to scale
+limits monitoring
+
+workarounds:
+
+increase prometheus server capacity
+limit no of metrics
+
+==================================== Prometheus with docekr and k8s =============================
+fully compatible 
+Prometheus components available as docker images
+can easily deployed on k8s 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+========================================= Prometheus ====================================================
 https://www.digitalocean.com/community/tutorials/how-to-install-prometheus-on-ubuntu-16-04
 
 https://prometheus.io/docs/introduction/overview/
@@ -322,6 +509,38 @@ https://prometheus.io/docs/prometheus/latest/querying/examples/
 
 all jobs that end with server:
 http_requests_total{job=~".*server"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
